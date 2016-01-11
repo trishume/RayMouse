@@ -180,7 +180,7 @@ void loop(void)
     vel[i] = angleDiff(zero[i],orient[i]);
 //    zero[i] = orient[i];
 //    zero[i] = lowPassAngle(zero[i],orient[i],zeroBleed);
-    diff[i] = lowPass(diff[i], vel[i], 0.5);
+    diff[i] = lowPass(diff[i], vel[i], 0.8);
   }
     
 //  if(diff[0] > 100 || diff[0] < -100) toZero = true;
