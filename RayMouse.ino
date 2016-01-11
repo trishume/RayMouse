@@ -33,20 +33,19 @@
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
 const int ledPin = 13;
-const float deadZone = 0.02;
-const float moveMult[2] = {-8.0,13.0};
-const float movePow[2] = {3.3,3.3};
-const float moveMax[2] = {20,20};
 
 // distances in meters
-const float distFromScreen = 2.0;
+const float distFromScreen = 2.5;
 const float screenDims[2] = {2.0,2.0};
 const int screenRes[2] = {1440,900};
+const float turnLock = 0.3;
+const float turnClick = 0.5;
 
 float diff[3] = {0,0,0};
 float zero[3] = {0,0,0};
 int tick = 0;
 bool toZero = true;
+bool clicked = false;
 
 bool mouseOn = false;
 /**************************************************************************/
@@ -209,7 +208,12 @@ void loop(void)
   }
 //  if(mov[0] != 0 || mov[1] != 0)
 //    Mouse.move(mov[0],mov[1]);
-  Mouse.moveTo(mov[0],mov[1]);
-  
+  if(abs(diff[2]) < turnLock) {
+    Mouse.moveTo(mov[0],mov[1]);
+    clicked = false;
+  } else if(abs(diff[2]) < turnClick && !clicked) {
+    Mouse.click();
+    clicked = true;
+  }
 //  doZero(orient);
 }
